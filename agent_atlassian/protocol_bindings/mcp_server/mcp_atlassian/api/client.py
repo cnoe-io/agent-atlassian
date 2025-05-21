@@ -16,10 +16,9 @@ load_dotenv()
 # Constants
 # Update the base URL to be specific to Jira API
 
-ATLASSIAN_API_URL = "https://jarvis-cisco.atlassian.net"
+ATLASSIAN_API_URL = os.getenv("ATLASSIAN_API_URL")
 DEFAULT_TOKEN = os.getenv("ATLASSIAN_TOKEN")
-ATLASSIAN_EMAIL = "omar.ahmed.taha@hotmail.com"
-
+ATLASSIAN_EMAIL = os.getenv("ATLASSIAN_EMAIL")
 
 # Configure logging
 logging.basicConfig(

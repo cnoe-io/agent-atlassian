@@ -169,6 +169,10 @@
         "name": "ATLASSIAN_API_URL"
       },
       {
+        "desc": "Atlassian email",
+        "name": "ATLASSIAN_EMAIL"
+      },
+      {
         "desc": "Atlassian verify ssl",
         "name": "ATLASSIAN_VERIFY_SSL"
       }

@@ -74,6 +74,11 @@ class AtlassianAgent:
           atlassian_api_url = os.getenv("ATLASSIAN_API_URL")
           if not atlassian_api_url:
             raise ValueError("ATLASSIAN_API_URL must be set as an environment variable.")
+
+          atlassian_email = os.getenv("ATLASSIAN_EMAIL")
+          if not atlassian_email:
+            raise ValueError("ATLASSIAN_EMAIL must be set as an environment variable.")
+
           client = MultiServerMCPClient(
               {
                   "math": {
@@ -82,7 +87,8 @@ class AtlassianAgent:
                       "env": {
                           "ATLASSIAN_TOKEN": os.getenv("ATLASSIAN_TOKEN"),
                           "ATLASSIAN_API_URL": os.getenv("ATLASSIAN_API_URL"),
-                          "ATLASSIAN_VERIFY_SSL": "false"
+                          "ATLASSIAN_VERIFY_SSL": "false",
+                          "ATLASSIAN_EMAIL": atlassian_email,
                       },
                       "transport": "stdio",
                   }

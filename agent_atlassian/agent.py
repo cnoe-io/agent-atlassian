@@ -49,6 +49,9 @@ async def create_agent(prompt=None, response_format=None):
   if not atlassian_api_url:
     raise ValueError("ATLASSIAN_API_URL must be set as an environment variable.")
 
+  atlassian_email = os.getenv("ATLASSIAN_EMAIL")
+  if not atlassian_email:
+    raise ValueError("ATLASSIAN_EMAIL must be set as an environment variable.")
   agent = None
   async with MultiServerMCPClient(
     {
@@ -58,6 +61,7 @@ async def create_agent(prompt=None, response_format=None):
         "env": {
           "ATLASSIAN_TOKEN": atlassian_token,
           "ATLASSIAN_API_URL": atlassian_api_url,
+          "ATLASSIAN_EMAIL": atlassian_email,
           "ATLASSIAN_VERIFY_SSL": "false"
         },
         "transport": "stdio",
@@ -154,7 +158,7 @@ async def _async_atlassian_agent(state: AgentState, config: RunnableConfig) -> D
         )
         if last_human_message is not None:
             human_message = last_human_message.content
-    
+
     # Default message if no user input was found
     if not human_message:
         human_message = "Hello, I need help with Atlassian"
@@ -188,7 +192,7 @@ async def _async_atlassian_agent(state: AgentState, config: RunnableConfig) -> D
             "You can also perform actions like syncing applications or rolling back to previous versions."
         )
     )
-    
+
     # Use the actual user message instead of a hardcoded one
     logger.info(f"Invoking agent with user message: {human_message}")
     llm_result = await agent.ainvoke({"messages": human_message})
