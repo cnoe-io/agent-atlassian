@@ -60,6 +60,7 @@ async def make_api_request(
 
     # Use the utility function to retrieve the token if not provided
     token = token or get_env()
+    auth_type = str(os.getenv("ATLASSIAN_AUTH_TYPE", "basic")).lower()
     email = str(os.getenv("ATLASSIAN_EMAIL"))
     url = str(os.getenv("ATLASSIAN_API_URL"))
     if not token:
@@ -69,19 +70,28 @@ async def make_api_request(
             {"error": "Token is required. Please set the ATLASSIAN_TOKEN environment variable."},
         )
 
-    import base64
-
-    auth_str = f"{email}:{token}"
-    encoded_auth = base64.b64encode(auth_str.encode()).decode()
-
     headers = {
-        "Authorization": f"Basic {encoded_auth}",
         "Accept": "application/json"
     }
 
+    if auth_type == "basic":
+        import base64
 
-    logger.debug(f"Request headers: {headers}")
+        auth_str = f"{email}:{token}"
+        encoded_auth = base64.b64encode(auth_str.encode()).decode()
+
+        headers["Authorization"] = f"Basic {encoded_auth}"
+    else:
+        headers["Authorization"] = f"Bearer {token}"
+
+    # remove none values from params
+    for key in list(params.keys()):
+        if params[key] is None:
+            del params[key]
+
+    # logger.debug(f"Request headers: {headers}")
     logger.debug(f"Request parameters: {params}")
+
     if data:
         logger.debug(f"Request data: {data}")
 

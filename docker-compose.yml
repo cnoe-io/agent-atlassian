@@ -1,0 +1,18 @@
+services:
+  atlassian-mcp-server:
+    build:
+      context: .
+      dockerfile: build/Dockerfile.mcp
+    ports:
+      - "3002:3002"
+    environment:
+      - AGENT_NAME=atlassian
+      - ATLASSIAN_TOKEN=${ATLASSIAN_TOKEN}
+      - ATLASSIAN_EMAIL=${ATLASSIAN_EMAIL}
+      - ATLASSIAN_API_URL=${ATLASSIAN_API_URL}
+      - ATLASSIAN_VERIFY_SSL=${ATLASSIAN_VERIFY_SSL:-True}
+      - ATLASSIAN_MCP_PROTOCOL=${ATLASSIAN_MCP_PROTOCOL:-sse}
+    volumes:
+      # Optional: mount a .env file if you prefer file-based configuration
+      - ./.env:/app/.env:ro
+    restart: unless-stopped

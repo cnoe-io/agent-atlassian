@@ -6,8 +6,9 @@ This server provides a Model Context Protocol (MCP) interface to the Atlassian A
 allowing large language models and AI assistants to manage Atlassian resources.
 """
 import logging
+import os
 from dotenv import load_dotenv
-from mcp.server.fastmcp import FastMCP
+from fastmcp import FastMCP
 
 # Import tools
 from agent_atlassian.protocol_bindings.mcp_server.mcp_atlassian.tools.jira import attachments
@@ -116,4 +117,16 @@ mcp.tool()(utils.format_page)'''
 
 # Start server when run directly
 if __name__ == "__main__":
-    mcp.run() 
+    # Load environment variables from .env file
+    load_dotenv()
+    mcp_protocol =  os.getenv("ATLASSIAN_MCP_PROTOCOL", "stdio")
+
+    if mcp_protocol == "stdio":
+        # Run the server with stdio transport for local testing
+        mcp.run(transport="stdio")
+    elif mcp_protocol == "sse":
+        host = os.getenv("MCP_HOST", "0.0.0.0")
+        port = int(os.getenv("MCP_PORT", "3000"))
+
+        # Run the server with SSE transport for HTTP connectivity
+        mcp.run(transport="sse", host=host, port=port)
