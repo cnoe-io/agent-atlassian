@@ -9,7 +9,7 @@ services:
       - AGENT_NAME=atlassian
       - ATLASSIAN_TOKEN=${ATLASSIAN_TOKEN}
       - ATLASSIAN_EMAIL=${ATLASSIAN_EMAIL}
-      - ATLASSIAN_API_URL=${ATLASSIAN_API_URL:-https://jira-eng-gpk2.cisco.com/jira}
+      - ATLASSIAN_API_URL=${ATLASSIAN_API_URL}
       - ATLASSIAN_VERIFY_SSL=${ATLASSIAN_VERIFY_SSL:-True}
       - ATLASSIAN_MCP_PROTOCOL=${ATLASSIAN_MCP_PROTOCOL:-sse}
     volumes:

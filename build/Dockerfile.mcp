@@ -28,7 +28,6 @@ USER appuser
 
 # Set environment variables for MCP server
 ENV PYTHONPATH=/app
-ENV ATLASSIAN_API_URL="https://jira-eng-gpk2.cisco.com/jira"
 ENV MCP_HOST="0.0.0.0"
 ENV MCP_PORT="3002"
 
